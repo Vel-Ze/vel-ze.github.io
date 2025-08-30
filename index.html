@@ -1,81 +1,87 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VEL‑Z APK Store</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Vel-Ze Portfolio</title>
   <style>
-    body { font-family: system-ui, sans-serif; }
-    .card { transition: transform .2s; }
-    .card:hover { transform: translateY(-4px); }
+    /* Basic Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+
+    body {
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      animation: fadeIn 3s ease-in-out;
+    }
+
+    button {
+      background: #ff4b2b;
+      color: #fff;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #ff416c;
+      transform: scale(1.1);
+    }
+
+    /* FadeIn Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Small footer */
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.9rem;
+      color: #bbb;
+    }
   </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
-  <!-- Header -->
-  <header class="bg-white shadow sticky top-0 z-10">
-    <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
-      <h1 class="text-xl font-bold">VEL‑Z Store</h1>
-      <input id="search" type="text" placeholder="Search apps..." class="px-3 py-2 border rounded-lg w-48 md:w-64"/>
-    </div>
-  </header>  <!-- App Grid -->  <main class="max-w-5xl mx-auto px-4 py-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-5" id="appGrid">
-    <!-- App cards will load here -->
-  </main>  <!-- Footer -->  <footer class="text-center text-sm text-gray-500 py-6 border-t">
-    © 2025 VEL‑Z. All rights reserved.
-  </footer><script>
-// Demo catalog (replace with JSON file later)
-const apps = [
-  {
-    id: "notes-22",
-    name: "Notes 22",
-    dev: "VEL‑Z",
-    version: "1.0.0",
-    size: "3.2MB",
-    updated: "2025-08-20",
-    desc: "Premium notes app with clean UI.",
-    icon: "https://cdn-icons-png.flaticon.com/512/1827/1827272.png",
-    link: "https://drive.google.com/file/d/1GcZ_Ar97d0ZMTLO8Vi4NGUn9CsUf543v/view?usp=drivesdk"
-  },
-  {
-    id: "music-lite",
-    name: "Music Lite",
-    dev: "VEL‑Z",
-    version: "2.3.1",
-    size: "12MB",
-    updated: "2025-08-10",
-    desc: "Lightweight music player.",
-    icon: "https://cdn-icons-png.flaticon.com/512/727/727245.png",
-    link: "https://drive.google.com/uc?export=download&id=YOUR_FILE_ID"
-  }
-];
+<body>
+  <h1>Welcome to Vel-Ze</h1>
+  <p>This is my portfolio / personal website.</p>
+  <button id="clickMe">Click Me!</button>
 
-function renderApps(filter="") {
-  const grid = document.getElementById("appGrid");
-  grid.innerHTML = "";
-  apps.filter(app => app.name.toLowerCase().includes(filter.toLowerCase()))
-      .forEach(app => {
-    const card = document.createElement("div");
-    card.className = "card bg-white rounded-xl shadow p-4 flex flex-col";
-    card.innerHTML = `
-      <div class="flex items-center gap-3">
-        <img src="${app.icon}" alt="${app.name}" class="w-12 h-12 rounded-lg">
-        <div>
-          <h2 class="font-semibold">${app.name}</h2>
-          <p class="text-xs text-gray-500">${app.dev}</p>
-        </div>
-      </div>
-      <p class="mt-3 text-sm text-gray-600">${app.desc}</p>
-      <div class="mt-3 text-xs text-gray-500">Version: ${app.version} • Size: ${app.size}</div>
-      <a href="${app.link}" target="_blank" class="mt-4 bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700">Download</a>
-    `;
-    grid.appendChild(card);
-  });
-}
+  <footer>© 2025 Vel-Ze</footer>
 
-// Initial render
-renderApps();
+  <script>
+    const btn = document.getElementById('clickMe');
+    btn.addEventListener('click', () => {
+      alert('Thanks for visiting my site! 😎');
+    });
 
-// Search
-const search = document.getElementById("search");
-search.addEventListener("input", e => renderApps(e.target.value));
-</script></body>
+    // Simple background animation
+    let angle = 0;
+    setInterval(() => {
+      angle += 0.2;
+      document.body.style.background = `linear-gradient(${angle}deg, #0f2027, #203a43, #2c5364)`;
+    }, 50);
+  </script>
+</body>
 </html>
