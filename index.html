@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Velz Store</title>
+<style>
+body { margin:0; font-family:Roboto, sans-serif; background:#f5f5f5; }
+.container { max-width:350px; margin:20px auto; padding:20px; border-radius:12px; box-shadow:0 4px 6px rgba(0,0,0,0.1); text-align:center; background:#fff; color:#000; }
+.button { padding:12px; border-radius:8px; border:none; background:#6200EE; color:#fff; font-weight:bold; cursor:pointer; margin:5px; position:relative; overflow:hidden; }
+.button:active { transform:scale(0.98); }
+input { padding:8px; width:200px; margin-right:5px; border-radius:6px; border:1px solid #ccc; }
+.task { margin:5px; padding:10px; border-radius:8px; background:#f0f0f0; display:flex; justify-content:space-between; align-items:center; }
+.task span { color:red; cursor:pointer; font-weight:bold; margin-left:10px; }
+</style>
+</head>
+<body>
+<div id="root">Loading...</div>
+
+<script>
+(function(){
+  var root = document.getElementById("root");
+  var screen = "home";
+  var darkMode = false;
+  var tasks = [];
+  var count = 0;
+
+  function render(){
+    root.innerHTML = "";
+    if(screen==="home"){
+      renderHome();
+    } else if(screen==="tasks"){
+      renderTasks();
+    }
+  }
+
+  function toggleDark(){
+    darkMode = !darkMode;
+    document.body.style.backgroundColor = darkMode?"#121212":"#f5f5f5";
+    render();
+  }
+
+  function createButton(text, onClick){
+    var btn = document.createElement("button");
+    btn.className="button";
+    btn.innerText=text;
+    btn.onclick=onClick;
+    btn.addEventListener("click", function(e){
+      var circle = document.createElement("span");
+      var d = Math.max(btn.clientWidth, btn.clientHeight);
+      var r = d/2;
+      circle.style.width = circle.style.height = d+"px";
+      circle.style.position="absolute";
+      circle.style.borderRadius="50%";
+      circle.style.background="rgba(255,255,255,0.4)";
+      circle.style.left = e.offsetX - r + "px";
+      circle.style.top = e.offsetY - r + "px";
+      circle.style.transform="scale(0)";
+      circle.style.opacity="0.75";
+      circle.style.pointerEvents="none";
+      circle.style.transition="transform 0.6s, opacity 0.6s";
+      btn.appendChild(circle);
+      requestAnimationFrame(function(){ circle.style.transform="scale(2)"; circle.style.opacity="0"; });
+      setTimeout(()=>circle.remove(),600);
+    });
+    return btn;
+  }
+
+  function renderHome(){
+    var div = document.createElement("div");
+    div.className="container";
+    div.innerHTML="<h1>Welcome!</h1><p>This is the Home Screen</p>";
+    var goTasks = createButton("Go to Tasks", function(){ screen="tasks"; render(); });
+    var toggle = createButton("Toggle "+(darkMode?"Light":"Dark")+" Mode", toggleDark);
+    div.appendChild(goTasks);
+    div.appendChild(document.createElement("br"));
+    div.appendChild(toggle);
+    root.appendChild(div);
+  }
+
+  function renderTasks(){
+    var div = document.createElement("div");
+    div.className="container";
+    div.innerHTML="<h1>Tasks Screen</h1>";
+
+    var back = createButton("Back to Home", function(){ screen="home"; render(); });
+    var toggle = createButton("Toggle "+(darkMode?"Light":"Dark")+" Mode", toggleDark);
+    div.appendChild(back);
+    div.appendChild(toggle);
+
+    // Counter
+    var counterTitle = document.createElement("h3"); counterTitle.innerText="Counter"; div.appendChild(counterTitle);
+    var counterVal = document.createElement("p"); counterVal.innerText="Button clicked "+count+" times"; div.appendChild(counterVal);
+    var incBtn = createButton("Increment Counter", function(){ count++; render(); });
+    div.appendChild(incBtn);
+
+    // Task List
+    var taskTitle = document.createElement("h3"); taskTitle.innerText="Task List"; div.appendChild(taskTitle);
+    var input = document.createElement("input"); input.placeholder="Enter a task";
+    var addBtn = createButton("Add Task", function(){ if(input.value.trim()!=""){ tasks.push(input.value.trim()); input.value=""; render(); }});
+    div.appendChild(input); div.appendChild(addBtn);
+
+    var ul = document.createElement("ul"); ul.style.listStyle="none"; ul.style.padding="0"; ul.style.marginTop="10px";
+    tasks.forEach(function(task,i){
+      var li = document.createElement("li"); li.className="task"; li.innerText=task;
+      var del = document.createElement("span"); del.innerText="X"; del.onclick=function(){ tasks.splice(i,1); render(); };
+      li.appendChild(del); ul.appendChild(li);
+    });
+    div.appendChild(ul);
+    root.appendChild(div);
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
